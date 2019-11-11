@@ -12,8 +12,7 @@ namespace EFCore.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("server=localhost;database=eftest;user=root;password=admin@123");
-            
+            optionsBuilder.UseMySQL("server=localhost;database=test;user=root;password=admin@123");
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -32,8 +31,16 @@ namespace EFCore.Models
                 entity.HasKey(e => e.ISBN);
                 entity.Property(e => e.Title).IsRequired();
                 entity.HasOne(x => x.Publisher).WithMany(p => p.BooksList);
-
+                entity.HasOne(x => x.Author).WithMany(a => a.Books);
             });
+
+            modelBuilder.Entity<Author>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.Name).IsRequired();
+            });
+
+
 
             base.OnModelCreating(modelBuilder);
         }

@@ -20,6 +20,7 @@ namespace EFCore
             using (var context = new Model())
             {
                 // Creates the database if not exists
+                context.Database.Migrate();
                 context.Database.EnsureCreated();
 
                 // Adds a publisher
@@ -29,12 +30,16 @@ namespace EFCore
                 };
                 context.Publishers.Add(publisher);
 
+                var author = new Author
+                {
+                    Name = "William Gates"
+                };
                 // Adds some books
                 context.Books.Add(new Books
                 {
                     ISBN = "978-0544003433",
                     Title = "The Lord of the Rings",
-                    Author = "J.R.R. Tolkien",
+                    Author = author,
                     Languages = "English",
                     Pages = 1216,
                     Publisher = publisher
@@ -43,7 +48,7 @@ namespace EFCore
                 {
                     ISBN = "978-05472477655",
                     Title = "The Sealed Letter",
-                    Author = "Emma Donoghue",
+                    Author = author,
                     Languages = "English",
                     Pages = 416,
                     Publisher = publisher
